@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDataProvider } from '../provaiders/Data.provaider';
+import { useDataProvider } from '../provider/Data.provaider';
 
 const Home = () => {
   const { popMovies } = useDataProvider();
