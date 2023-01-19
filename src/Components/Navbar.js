@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDataProvider } from "../provider/Data.provaider";
 import { BiSearch } from "@react-icons/all-files/bi/BiSearch";
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { categories } = useDataProvider();
+  const { categories, updateCurrentCategoryName } = useDataProvider();
   const nav = useNavigate();
-  const selceltHandler = (e) => {
-    nav(`/category/${e}`);
+  const selceltHandler = (categoryName) => {
+    updateCurrentCategoryName(categoryName);
+    nav(`/category/${categoryName}`);
   };
   return (
     <nav className='main'>

@@ -1,14 +1,18 @@
-import React from 'react'
-import { useDataProvider } from '../provider/Data.provaider';
+import React from "react";
+import { useDataProvider } from "../provider/Data.provaider";
 
 const Home = () => {
-  const { popMovies } = useDataProvider();
+  const { popMoviesList } = useDataProvider();
   return (
     <div>
-      {popMovies?.map((c,i)=> (<h3 key={c.id}>{i+ 1 +". "}{c.title}</h3>))}
+      {popMoviesList?.map((c, i) => (
+        <h3 key={c.id}>
+          {i + 1 + ". "}
+          {c.title}
+        </h3>
+      ))}
     </div>
-    
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

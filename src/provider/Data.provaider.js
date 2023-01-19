@@ -1,4 +1,10 @@
-import React, { useContext, useState, createContext, useEffect } from "react";
+import React, {
+  useContext,
+  useState,
+  createContext,
+  useEffect,
+  useCallback,
+} from "react";
 
 export const DataContext = createContext({});
 
@@ -7,17 +13,6 @@ export function useDataProvider() {
 }
 
 const DataProvider = ({ children }) => {
-  const [popMovies, setPopMovies] = useState();
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=ac3bfcd5e1c584dc30f01a2b2546e3a6&page=1`
-      );
-      const newData = await response.json();
-      setPopMovies(newData.results);
-    };
-    fetchData();
-  }, []);
   const categories = [
     {
       id: 28,
@@ -96,9 +91,51 @@ const DataProvider = ({ children }) => {
       name: "Western",
     },
   ];
+  const [popMoviesList, setPopMoviesList] = useState();
+  const [currentCategoriesMoviesList, setCurrentCategoriesMoviesList] =
+    useState();
+  const [currentCategoryName, setCurrentCategoryName] = useState();
+  useEffect(() => {
+    const fetchPopMovies = async () => {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=ac3bfcd5e1c584dc30f01a2b2546e3a6&page=1`
+      );
+      const newData = await response.json();
+      setPopMoviesList(newData.results);
+    };
+    fetchPopMovies();
+  }, []);
+
+  const updateCurrentCategoryName = useCallback((categoryName) => {
+    setCurrentCategoryName(categoryName);
+  }, []);
+  const updateCurrentCategoriesMovies = useCallback((categoryMovieList) => {
+    setCurrentCategoriesMoviesList(categoryMovieList);
+  }, []);
+
+  const fetchCurrentMovieList = useCallback(async (category) => {
+    const categoryId = categories.filter(
+      (categoryName) => categoryName.name === category
+    );
+
+    const response = await fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=ac3bfcd5e1c584dc30f01a2b2546e3a6&with_genres=${categoryId[0].id}&page=1`
+    );
+    const data = await response.json();
+    setCurrentCategoriesMoviesList(data.results);
+  }, []);
 
   return (
-    <DataContext.Provider value={{ categories, popMovies }}>
+    <DataContext.Provider
+      value={{
+        categories,
+        popMoviesList,
+        currentCategoriesMoviesList,
+        updateCurrentCategoryName,
+        updateCurrentCategoriesMovies,
+        fetchCurrentMovieList,
+      }}
+    >
       {children}
     </DataContext.Provider>
   );
