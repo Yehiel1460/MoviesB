@@ -1,8 +1,8 @@
 import React from "react";
 import { useDataProvider } from "../provider/Data.provaider";
-import { BiSearch } from "@react-icons/all-files/bi/BiSearch";
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
+import SearchMovie from "./SearchMovie";
 
 const Navbar = () => {
   const { categories, updateCurrentCategoryName } = useDataProvider();
@@ -17,8 +17,7 @@ const Navbar = () => {
         MovieB
       </h3>
       <div>
-        <input type={"text"} placeholder='Search Movie'></input>
-        <BiSearch className='seacrch' />
+        <SearchMovie />
       </div>
       <div>
         <select

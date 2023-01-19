@@ -5,6 +5,7 @@ const Home = () => {
   const { popMoviesList } = useDataProvider();
   return (
     <div>
+      <h1>Top 20 popular movies</h1>
       {popMoviesList?.map((c, i) => (
         <h3 key={c.id}>
           {i + 1 + ". "}
